@@ -1,0 +1,69 @@
+<!-- Needs a jumbotron with the avatar and the who they're following info plus the side bar with the bio and location, etc -->
+<div id="bluejumbo" class="jumbotron-fluid">
+</div>
+<div id="whitejumbo" class="jumbotron-fluid">
+  <div class="col-lg-3 col-md-3 col-s-3 col-xs-3">
+        <img class="img-responsive" id="main_pic"><%= image_tag @user.avatar.url, class:"img-circle", width:"120px", height:"120px" %></img>
+  </div>
+  <div class="col-lg-1 col-md-1 col-s-2 col-xs-2">
+      <h5 id="header" class="text-center">Tweets</h5>
+      <p id="header" class="text-center"><%= @user.tweets.count %></p>
+    </div>
+    <div class="col-lg-1 col-md-2 col-s-2 col-xs-2">
+        <h5 id="header" class="text-center">Following</h5>
+        <p id="header" class="text-center"><%= @user.following.count %></p>
+      </div>
+      <div class="col-lg-1 col-md-1 col-s-1 col-xs-1">
+          <h5 id="header" class="text-center">Followers</h5>
+          <p id="header" class="text-center">
+            <% @user = User.find(params[:id]) %>
+            <% @users = [] %>
+
+            <% User.all.each do |user| %>
+              <% if user.following.include?(@user.id) %>
+                <% @users.push(user) %>
+                <% end %>
+            <% end %>
+            <%= @users.count %>
+          </p>
+        </div>
+        <div class="text-right">
+          <a>
+            <% if current_user.following.include?(@user.id) %>
+            <%= link_to "Following", unfollow_path(id: @user.id), class: "btn btn-primary", id: "unfollow_btn" %>
+            <% elsif current_user.id != @user.id %>
+            <%= link_to "Follow", now_following_path(id: @user.id), class: "btn btn-primary" %>
+            <% end %>
+          </a>
+        </div>
+      </div>
+
+
+
+      <div class="container-fluid">
+        <div class="row">
+
+          <div class="container col-lg-3 col-md-3 col-sm-3 col-xs-3">
+            <div id="showprofile">
+              <h4><%= @user.name %></h4>
+              <h6>@<%= @user.username %></h6>
+              <p>
+                <%= @user.bio %>
+              </p>
+              <p><span class="glyphicon glyphicon-map-marker"></span> <%= @user.location %></p>
+              <p><span class="glyphicon glyphicon-calendar"></span> Joined <%= @user.created_at.strftime('%b %d %Y') %></p>
+              <a id="tweetbtn" href="#" class="btn btn-primary">Tweet at <%= @user.name %></a>
+            </div>
+            <div>
+              <h4>Followers:</h4>
+              <%= render 'user_list' %>
+            </div>
+          </div>
+
+          <div class="container col-xs-9 col-sm-9 col-md-9 col-lg-9">
+            <ul class="list-group">
+              <%= render @user.tweets.reverse %>
+            </ul>
+          </div>
+        </div>
+      </div>

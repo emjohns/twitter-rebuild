@@ -1,0 +1,14 @@
+
+<div class="media">
+  <li class="list-group-item">
+    <div class="media-left">
+      <%= image_tag tweet.user.avatar.url, class:"img-circle", height:"60px", width:"60px" %>
+    </div>
+    <div class="media-body">
+      <p><strong>
+        <%= link_to tweet.user.name, show_user_path(id: tweet.user.id) %></strong>
+        <small>@<%= tweet.user.username %> <%=tweet.created_at.strftime('%b %d %Y') %></small></p>
+        <p><%= tweet.message.html_safe %></p>
+      </div>
+    </li>
+  </div>

@@ -1,0 +1,49 @@
+
+
+
+<div class="container">
+<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+    <div id="homeprofile">
+
+        <h4><%= image_tag current_user.avatar.url, id:"homeprofilepic", class:"img-circle", width:"60px", height:"60px" %> <%= current_user.name %></h4>
+        <h6>@<%= current_user.username %></h6>
+
+        <table id="profiletable">
+          <tr>
+            <th><small>Tweets</small></td>
+            <th><small>Following</small><td>
+            <th><small>Followers</small><td>
+              </tr>
+              <tr>
+                <td><%= current_user.tweets.count %></td>
+                <td><%= current_user.following.count %></td>
+                <td><% @users = [] %>
+
+                  <% User.all.each do |user| %>
+                  <% if user.following.include?(current_user.id) %>
+                  <% @users.push(user) %>
+                  <% end %>
+                  <% end %>
+                  <%= @users.count %></td>
+                </tr>
+              </table>
+    </div>
+<div>
+  <h4>Who to Follow:</h4>
+  <% @users = User.all %>
+
+  <%= render 'user_list' %>
+</div>
+</div>
+
+<div class="container col-xs-9 col-sm-9 col-md-9 col-lg-9">
+  <div id="new_form" class="well">
+    <%= render 'tweets/form', tweet: @tweet %>
+  </div>
+<div>
+  <ul class="list-group">
+
+    <%= render @following_tweets.reverse %>
+</ul>
+</div>
+</div>

@@ -1,0 +1,22 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Tweets</h1>
+
+
+
+  <div class="container col-xs-6">
+    <% @tweets.each do |tweet| %>
+        <h5><%= tweet.user.name %></h5>
+        <p><%= tweet.message %></p>
+        <!--
+        <td><%= link_to 'Show', tweet %></td>
+        <td><%= link_to 'Edit', edit_tweet_path(tweet) %></td>
+        <td><%= link_to 'Destroy', tweet, method: :delete, data: { confirm: 'Are you sure?' } %></td>-->
+
+    <% end %>
+  </div>
+
+
+<br>
+
+<%= link_to 'New Tweet', new_tweet_path %>

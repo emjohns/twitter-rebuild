@@ -1,0 +1,31 @@
+<ul class="list-group">
+  <% @users.each do |user| %>
+  <li class="list-group-item">
+
+
+    <div class="media">
+      <div class="media-left">
+        <%= image_tag user.avatar.url, class:"img-circle", height: "60px", width:"60px" %>
+
+      </div>
+      <div class="media-body">
+        <%= link_to show_user_path(id: user.id) do %>
+        <h3 class="media-heading"><%= user.name %></h3>
+        <p>@<%= user.username %></p>
+        <p>
+          <% if current_user.following.include?(user.id) %>
+          <%= link_to "Following", unfollow_path(id: user.id), class: "btn btn-primary", id: "unfollow_btn" %>
+          <% else %>
+          <% if current_user.id != user.id %>
+          <%= link_to "Follow", now_following_path(id: user.id), class: "btn btn-primary" %>
+          <% end %>
+          <% end %>
+
+          <% end %>
+        </p>
+        <p><%= user.bio %></p>
+      </div>
+    </li>
+
+    <% end %>
+  </ul>
